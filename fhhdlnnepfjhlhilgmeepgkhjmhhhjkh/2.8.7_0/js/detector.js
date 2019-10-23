@@ -480,7 +480,7 @@
             return window.Raven;
         },
         'qrcode.js': function () {
-            return window.jQuery && window.jQuery.fn.qrcode;
+            return window.QRCode && window.QRCode.name === 'QRCode';
         },
     };
 
