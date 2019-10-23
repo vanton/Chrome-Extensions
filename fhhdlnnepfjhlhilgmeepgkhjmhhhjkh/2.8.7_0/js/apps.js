@@ -1030,6 +1030,10 @@ var appinfo = {
         icon: 'sentry.io',
         url: 'https://docs.sentry.io/platforms/javascript/'
     },
+    'qrcode.js': {
+        icon: 'qrcode.png',
+        url: 'https://github.com/jeromeetienne/jquery-qrcode'
+    },
     // ==== misc ====
     '': { // default
         icon: 'unknown.jpg',

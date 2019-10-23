@@ -479,6 +479,9 @@
         'Raven': function () {
             return window.Raven;
         },
+        'qrcode.js': function () {
+            return window.jQuery && window.jQuery.fn.qrcode;
+        },
     };
 
     for (var t in js_tests) {
