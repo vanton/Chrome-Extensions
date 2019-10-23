@@ -432,8 +432,29 @@
             return window.Rx;
         },
         'Vue': function () {
-            return window.Vue;
+            if (window.Vue) {
+                return window.Vue;
+            }
+            const all = document.querySelectorAll('*');
+            let el;
+            for (let i = 0; i < all.length; i++) {
+                if (all[i].__vue__) {
+                    el = all[i];
+                    break;
+                }
+            }
+            if (el) {
+                let Vue = Object.getPrototypeOf(el.__vue__).constructor;
+                while (Vue.super) {
+                    Vue = Vue.super;
+                }
+                window.Vue = Vue;
+                return Vue;
+            }
         },
+        // 'Vue': function () {
+        //     return window.Vue;
+        // },
         'polymer': function () {
             return window.Polymer;
         },
@@ -481,6 +502,9 @@
         },
         'qrcode.js': function () {
             return window.QRCode && window.QRCode.name === 'QRCode';
+        },
+        'emoji': function () {
+            return window.String.prototype.emoji;
         },
     };
 
