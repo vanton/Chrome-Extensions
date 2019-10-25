@@ -1041,6 +1041,10 @@ var appinfo = {
     'emoji': {
         icon: 'emoji.png',
     },
+    'cloudflare': {
+        icon: 'cloudflare.ico',
+        url: 'https://www.cloudflare.com/',
+    },
     // ==== misc ====
     '': { // default
         icon: 'unknown.jpg',
