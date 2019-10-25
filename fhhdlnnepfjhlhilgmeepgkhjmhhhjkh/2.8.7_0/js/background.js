@@ -82,7 +82,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     // 'result' event issued by main.js once app identification is complete
     if (request.msg == 'result') {
         var thisTab = tabinfo[sender.tab.id];
-
+        
         if ( ! thisTab) {
             return;
         }
@@ -129,8 +129,8 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
             if ( ! /^(http|https):\/\/(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])/.test(sender.tab.url)
                     && ! /^(http|https):\/\/localhost/.test(sender.tab.url)) {
                 data = {
-                    "libs": JSON.stringify(thisTab['apps']),
-                    "ip": thisTab['ip'],
+                    "libs": JSON.stringify(thisTab['apps']), 
+                    "ip": thisTab['ip'], 
                     "add_time": +new Date
                 };
                 localStorage.setItem(sender.tab.url, JSON.stringify(data));

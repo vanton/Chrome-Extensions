@@ -9,7 +9,7 @@
  * @license GPLv3
  **/
 
-(function () {
+(function() {
     var _apps = {};
     var doc = document.documentElement;
     var name;
@@ -17,7 +17,7 @@
 
     // 1: detect by meta tags, the first matching group will be version
     // 根据 meta 信息判断
-    var metas = doc.getElementsByTagName('meta');
+    var metas = doc.getElementsByTagName("meta");
     var meta_tests = {
         'generator': {
             'Joomla': /joomla!?\s*([\d\.]+)?/i,
@@ -76,7 +76,7 @@
 
     for (var idx in metas) {
         var m = metas[idx];
-        name = m.name ? m.name.toLowerCase() : '';
+        name = m.name ? m.name.toLowerCase() : "";
 
         if (!meta_tests[name]) continue;
 
@@ -92,7 +92,7 @@
 
     // 2: detect by script tags
     // 根据 script 标签判断
-    var scripts = doc.getElementsByTagName('script');
+    var scripts = doc.getElementsByTagName("script");
 
     var script_tests = {
         '\u767e\u5ea6\u7edf\u8ba1': /hm\.baidu\.com\/hm?\.js/i,
@@ -149,18 +149,19 @@
         'Mura CMS': /mura\/js/,
         'Tiki Wiki CMS Groupware': /tiki-js/,
         'OpenTag': /opentag.*\.js/,
-        'KISSmetrics': /i.kissmetrics.com\/i.js/
+        'KISSmetrics': /i.kissmetrics.com\/i.js/,
+        'AMP': /cdn\.ampproject\.org/
     };
 
-    for (var _idx in scripts) {
-        var s = scripts[_idx];
+    for (var idx in scripts) {
+        var s = scripts[idx];
         if (!s.src) continue;
         s = s.src;
 
-        for (var _t in script_tests) {
-            if (_t in _apps) continue;
-            if (script_tests[_t].test(s)) {
-                _apps[_t] = -1;
+        for (var t in script_tests) {
+            if (t in _apps) continue;
+            if (script_tests[t].test(s)) {
+                _apps[t] = -1;
             }
         }
     }
@@ -202,10 +203,10 @@
         'React': /<[^>]+data-react/
     };
 
-    for (var _t in text_tests) {
-        if (_t in _apps) continue;
-        if (text_tests[_t].test(text)) {
-            _apps[_t] = -1;
+    for (var t in text_tests) {
+        if (t in _apps) continue;
+        if (text_tests[t].test(text)) {
+            _apps[t] = -1;
         }
     }
 
@@ -213,188 +214,188 @@
     // 5: detect by inline javascript
     // 根据 inline javascript 判断
     var js_tests = {
-        'Highcharts': function () {
+        'Highcharts': function() {
             return window.Highcharts;
         },
-        'Zepto.js': function () {
+        'Zepto.js': function() {
             return window.Zepto && window.Zepto.fn;
         },
-        'CodeIgniter': function () {
-            return document.cookie.indexOf('cisession') != -1 || document.cookie.indexOf('ci_session') != -1;
+        'CodeIgniter': function() {
+            return document.cookie.indexOf("cisession") != -1 || document.cookie.indexOf("ci_session") != -1;
         },
-        'Java': function () {
-            return document.cookie.indexOf('JSESSIONID') != -1;
+        'Java': function() {
+            return document.cookie.indexOf("JSESSIONID") != -1;
         },
-        'Domino': function () {
-            return document.cookie.indexOf('LtpaToken') != -1 || document.cookie.indexOf('DomAuthSessId') != -1;
+        'Domino': function() {
+            return document.cookie.indexOf("LtpaToken") != -1 || document.cookie.indexOf("DomAuthSessId") != -1;
         },
-        'Drupal8': function () {
+        'Drupal8': function() {
             // Do not JS test if Drupal was already detected.
             if (_apps.Drupal8 !== undefined || _apps.Drupal !== undefined) return;
             // To ensure that the D8 logo is used, we must execute test here.
             // This way it doesn't test the normal "Drupal" one.
             return 'Drupal' in window && Drupal.throwError !== undefined && '8';
         },
-        'Drupal': function () {
+        'Drupal': function() {
             // Do not JS test if Drupal was already detected.
             if (_apps.Drupal8 !== undefined || _apps.Drupal !== undefined) return;
             return window.Drupal;
         },
-        'Flarum': function () {
+        'Flarum': function() {
             return window.System && System.has && System.has('flarum/app');
         },
-        'TomatoCMS': function () {
+        'TomatoCMS': function() {
             return window.Tomato;
         },
-        'MojoMotor': function () {
+        'MojoMotor': function() {
             return window.Mojo;
         },
-        'ErainCart': function () {
+        'ErainCart': function() {
             return window.fn_register_hooks;
         },
-        'SugarCRM': function () {
+        'SugarCRM': function() {
             return window.SUGAR;
         },
-        'YUI': function () {
+        'YUI': function() {
             return window.YAHOO;
         },
-        'YUI 3': function () {
+        'YUI 3': function() {
             return window.YUI;
         },
-        'jQuery': function () {
+        'jQuery': function() {
             return window.jQuery;
         },
-        'ColorThief': function () {
+        "ColorThief": function() {
             return window.ColorThief;
         },
-        'jQuery.hotkeys': function () {
+        "jQuery.hotkeys": function() {
             return window.jQuery && jQuery.hotkeys;
         },
-        'spin.js': function () {
+        "spin.js": function() {
             return (window.jQuery && jQuery.fn && jQuery.fn.spin) || window.Spinner;
         },
-        'babel': function () {
+        "babel":function() {
             return window.babelHelpers;
         },
-        'FastClick': function () {
+        "FastClick":function() {
             return window.FastClick;
         },
-        'twemoji': function () {
+        "twemoji":function() {
             return window.twemoji;
         },
-        'Mithril': function () {
+        "Mithril":function() {
             return window.m && typeof window.m.version === 'function';
         },
-        's9e.TextFormatter': function () {
+        "s9e.TextFormatter": function() {
             return window.s9e && s9e.TextFormatter;
         },
-        'Pusher': function () {
+        "Pusher": function() {
             return window.Pusher && Pusher.Channel;
         },
-        'jQuery UI': function () {
+        'jQuery UI': function() {
             return window.jQuery && window.jQuery.ui;
         },
-        'Typekit': function () {
+        'Typekit': function() {
             return window.Typekit;
         },
-        'KindEditor': function () {
+        'KindEditor': function() {
             return window.KindEditor;
         },
-        'Facebook': function () {
+        'Facebook': function() {
             return window.FB && window.FB.api;
         },
-        'ExtJS': function () {
+        'ExtJS': function() {
             return window.Ext;
         },
-        'Modernizr': function () {
+        'Modernizr': function() {
             return window.Modernizr;
         },
-        'Raphael': function () {
+        'Raphael': function() {
             return window.Raphael;
         },
-        'Cufon': function () {
+        'Cufon': function() {
             return window.Cufon;
         },
-        'sIFR': function () {
+        'sIFR': function() {
             return window.sIFR;
         },
-        'Xiti': function () {
+        'Xiti': function() {
             return window.xtsite && window.xtpage;
         },
-        'Piwik': function () {
+        'Piwik': function() {
             return window.Piwik;
         },
-        'IPB': function () {
+        'IPB': function() {
             return window.IPBoard;
         },
-        'MyBB': function () {
+        'MyBB': function() {
             return window.MyBB;
         },
-        'Clicky': function () {
+        'Clicky': function() {
             return window.clicky;
         },
-        'Woopra': function () {
+        'Woopra': function() {
             return window.woopraTracker;
         },
-        'RightJS': function () {
+        'RightJS': function() {
             return window.RightJS;
         },
-        'OpenWebAnalytics': function () {
+        'OpenWebAnalytics': function() {
             return window.owa_baseUrl;
         },
-        'Prettify': function () {
+        'Prettify': function() {
             return window.prettyPrint;
         },
-        'SiteCatalyst': function () {
+        'SiteCatalyst': function() {
             return window.s_account;
         },
-        'Twitter': function () {
+        'Twitter': function() {
             return window.twttr;
         },
-        'Coremetrics': function () {
+        'Coremetrics': function() {
             return window.cmCreatePageviewTag;
         },
-        'Buzz': function () {
+        'Buzz': function() {
             return window.google_buzz__base_url;
         },
-        'Plus1': function () {
+        'Plus1': function() {
             return window.gapi && window.gapi.plusone;
         },
-        'Google Loader': function () {
+        'Google Loader': function() {
             return window.google && window.google.load;
         },
-        'GoogleMapApi': function () {
+        'GoogleMapApi': function() {
             return window.google && window.google.maps;
         },
-        'Head JS': function () {
+        'Head JS': function() {
             return window.head && window.head.js;
         },
-        'SWFObject': function () {
+        'SWFObject': function() {
             return window.swfobject;
         },
-        'Chitika': function () {
+        'Chitika': function() {
             return window.ch_client && window.ch_write_iframe;
         },
-        'Jimdo': function () {
+        'Jimdo': function() {
             return window.jimdoData;
         },
-        'Webs': function () {
+        'Webs': function() {
             return window.webs;
         },
-        'Backbone.js': function () {
-            return window.Backbone && typeof (window.Backbone.sync) === 'function';
+        'Backbone.js': function() {
+            return window.Backbone && typeof(window.Backbone.sync) === 'function';
         },
-        'Underscore.js': function () {
+        'Underscore.js': function() {
             // return window._ && typeof(window._.identity) === 'function' && window._.identity('abc') === 'abc' && window._.name === '_';
             return window._ && typeof (window._.identity) === 'function' && window._.identity('abc') === 'abc';
         },
-        'Spine': function () {
+        'Spine': function() {
             return window.Spine;
         },
-        'AngularJs': function () {
+        'AngularJs': function() {
             return window.angular;
         },
-        'Angular': function () {
+        'Angular': function() {
             return window.ng;
         },
         'Ionic': function () {
@@ -403,37 +404,37 @@
         'Elm': function () {
             return window.Elm;
         },
-        'Ning': function () {
+        'Ning': function() {
             return window.ning;
         },
-        'ektron': function () {
+        'ektron': function() {
             return window.Ektron;
         },
-        'etracker': function () {
+        'etracker': function() {
             return window.et_params;
         },
-        'SPDY': function () {
+        'SPDY': function() {
             if (window.PerformanceNavigationTiming) {
-                const ntEntry = performance.getEntriesByType('navigation')[0];
-                return ['h2', 'hq'].includes(ntEntry.nextHopProtocol);
+              const ntEntry = performance.getEntriesByType('navigation')[0];
+              return ['h2', 'hq'].includes(ntEntry.nextHopProtocol);
             }
             return false;
         },
-        'LiveStreet': function () {
+        'LiveStreet': function() {
             return window.LIVESTREET_SECURITY_KEY;
         },
-        'D3': function () {
+        'D3': function() {
             return window.d3;
         },
-        'moment': function () {
+        'moment': function() {
             return window.moment;
         },
-        'RxJs': function () {
+        'RxJs': function() {
             return window.Rx;
         },
-        'Vue': function () {
+        'Vue': function() {
             if (window.Vue) {
-                return window.Vue;
+            return window.Vue;
             }
             const all = document.querySelectorAll('*');
             let el;
@@ -452,20 +453,20 @@
                 return Vue;
             }
         },
-        // 'Vue': function () {
-        //     return window.Vue;
-        // },
-        'polymer': function () {
+        'polymer':function () {
             return window.Polymer;
         },
-        'avalon': function () {
+        'avalon':function () {
             return window.avalon;
         },
-        'Lo-dash': function () {
+        'Lo-dash':function () {
             return window._ && window._.name === 'lodash';
         },
-        'Webpack': function () {
+        'Webpack':function () {
             return window.webpackJsonp;
+        },
+                'Ember':function () {
+            return window.EmberENV && window.Ember;
         },
         'flowchart': function () {
             return window.flowchart;
@@ -505,7 +506,7 @@
         },
         'emoji': function () {
             return window.String.prototype.emoji;
-        },
+        }
     };
 
     for (var t in js_tests) {
@@ -518,13 +519,13 @@
     // 6: detect some script version when available
     // 判断 javascript 版本
     var js_versions = {
-        'Highcharts': function () {
+        'Highcharts': function() {
             if ('Highcharts' in window && Highcharts.version !== undefined) return window.Highcharts.version;
         },
-        'Prototype': function () {
+        'Prototype': function() {
             if ('Prototype' in window && Prototype.Version !== undefined) return window.Prototype.Version;
         },
-        'Drupal': function () {
+        'Drupal': function() {
             // Drupal does not provide detectable versions other than its major (for security purposes).
             // However, major versions can be deduced from methods/properties avilable in Drupal global.
             if ('Drupal' in window && Drupal.detachBehaviors !== undefined) return '7';
@@ -533,93 +534,96 @@
             // There is nothing in JS DOM parsing that can disquish versions older than 4.7.
             return '4.7 (or older)';
         },
-        'script.aculo.us': function () {
+        'script.aculo.us': function() {
             if ('Scriptaculous' in window && Scriptaculous.Version !== undefined) return window.Scriptaculous.Version;
         },
-        'jQuery': function () {
+        'jQuery': function() {
             if (typeof jQuery === 'function' && jQuery.prototype.jquery !== undefined) return jQuery.prototype.jquery;
         },
-        'jQuery UI': function () {
+        'jQuery UI': function() {
             if (typeof jQuery === 'function' && jQuery.ui && jQuery.ui.version !== undefined) return jQuery.ui.version;
         },
-        'Dojo': function () {
+        'Dojo': function() {
             if (typeof dojo === 'object' && dojo.version.toString() !== undefined) return dojo.version.toString();
         },
-        'YUI': function () {
+        'YUI': function() {
             if (typeof YAHOO === 'object' && YAHOO.VERSION !== undefined) return YAHOO.VERSION;
         },
-        'YUI 3': function () {
+        'YUI 3': function() {
             if ('YUI' in window && typeof YUI === 'function' && YUI().version !== undefined) return YUI().version;
         },
-        'jQuery.hotkeys': function () {
+        "jQuery.hotkeys": function() {
             return window.jQuery && jQuery.hotkeys && jQuery.hotkeys.version;
         },
-        'Mithril': function () {
-            return window.m && typeof window.m.version === 'function' && window.m.version();
+        "Mithril": function() {
+            return window.m && typeof window.m.version ==='function' && window.m.version();
         },
-        'Pusher': function () {
+        "Pusher": function() {
             return window.Pusher && Pusher.Channel && Pusher.VERSION;
         },
-        'MooTools': function () {
+        'MooTools': function() {
             if (typeof MooTools === 'object' && MooTools.version !== undefined) return MooTools.version;
         },
-        'ExtJS': function () {
+        'ExtJS': function() {
             if (typeof Ext === 'object' && Ext.version !== undefined) return Ext.version;
         },
-        'RightJS': function () {
+        'RightJS': function() {
             if ('RightJS' in window && RightJS.version !== undefined) return RightJS.version;
         },
-        'Modernizr': function () {
+        'Modernizr': function() {
             if (window.Modernizr && Modernizr._version !== undefined) return Modernizr._version;
         },
-        'Raphael': function () {
+        'Raphael': function() {
             if (window.Raphael && Raphael.version !== undefined) return Raphael.version;
         },
-        'Backbone.js': function () {
+        'Backbone.js': function() {
             if (window.Backbone && window.Backbone.VERSION) return window.Backbone.VERSION;
         },
-        'Underscore.js': function () {
+        'Underscore.js': function() {
             if (window._ && window._.VERSION) return window._.VERSION;
         },
-        'Spine': function () {
+        'Spine': function() {
             if (window.Spine && window.Spine.version) return window.Spine.version;
         },
-        'AngularJs': function () {
+        'AngularJs': function() {
             if (window.angular && window.angular.version && 'full' in window.angular.version) return window.angular.version.full;
         },
-        'Angular': function () {
+        'Angular': function() {
             if (window.ng && window.document.body && window.document.body.children.length > 0) {
                 var children = new Array(window.document.body.children[0]);
-                var rootCmp = children.find(function (e) {
+                var rootCmp = children.find( function (e) {
                     return e.attributes && 'ng-version' in e.attributes;
                 });
                 return rootCmp.attributes['ng-version'].nodeValue;
             }
         },
         'Ionic': function () {
-            if (window.Ionic && window.Ionic.version) return window.Ionic.version;
-            if (window.ionic && window.ionic.version) return window.ionic.version;
+          if(window.Ionic && window.Ionic.version) return window.Ionic.version;
+          if(window.ionic && window.ionic.version) return window.ionic.version;
         },
-        'D3': function () {
+        'D3': function() {
             if (window.d3 && window.d3.version) return window.d3.version;
         },
-        'KindEditor': function () {
+        'KindEditor': function() {
             return window.KindEditor && window.KindEditor.VERSION;
         },
-        'moment': function () {
+        'moment': function() {
             if (window.moment && window.moment.version) return window.moment.version;
         },
-        'Vue': function () {
-            if (window.Vue) return window.Vue.version;
+        'Vue': function() {
+            if(window.Vue) return window.Vue.version;
         },
-        'polymer': function () {
-            if (window.Polymer) return window.Polymer.version;
+        'polymer':function () {
+            if(window.Polymer) return window.Polymer.version;
         },
-        'avalon': function () {
-            if (window.avalon) return window.avalon.version;
+        'avalon':function () {
+            if(window.avalon) return window.avalon.version;
         },
-        'Lo-dash': function () {
-            if (window._ && window._.name === 'lodash') return window._.VERSION;
+        'Lo-dash':function () {
+            if(window._ && window._.name === 'lodash') return window._.VERSION;
+        },
+                'Ember':function () {
+            if (window.Ember) return window.Ember.VERSION;
         },
         'katex': function () {
             if (window.katex) return window.katex.version;
@@ -635,13 +639,13 @@
         },
         'Raven': function () {
             if (window.Raven) return window.Raven.VERSION;
-        },
+        }
     };
 
     for (var a in _apps) {
         if (_apps[a] === -1 && js_versions[a]) {
             r = js_versions[a]();
-            _apps[a] = r ? r : -1;
+            _apps[a] = r ? r: -1;
         }
     }
 
@@ -668,12 +672,12 @@
             /* Iterate through all registered css classes and check for presence */
             for (var cssFile in document.styleSheets) {
                 if (!document.styleSheets[cssFile].hasOwnProperty('cssRules')) continue;
-
+                
                 for (var cssRule in document.styleSheets[cssFile].cssRules) {
                     var style = document.styleSheets[cssFile].cssRules[cssRule];
 
-                    if (typeof style === 'undefined') continue;
-                    if (typeof style.selectorText === 'undefined') continue;
+                    if (typeof style === "undefined") continue;
+                    if (typeof style.selectorText === "undefined") continue;
 
                     if (style.selectorText.indexOf(name) !== -1) {
                         act = true;
