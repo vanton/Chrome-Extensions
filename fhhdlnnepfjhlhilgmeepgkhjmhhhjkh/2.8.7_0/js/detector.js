@@ -489,6 +489,9 @@
         'WebFont': function () {
             return window.WebFont;
         },
+        'WebSocket': function () {
+            return window.WebSocket && window.WebSocket.CONNECTING;
+        },
         'Prism': function () {
             return window.Prism;
         },
