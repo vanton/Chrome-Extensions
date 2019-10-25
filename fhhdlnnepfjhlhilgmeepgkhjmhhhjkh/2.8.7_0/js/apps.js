@@ -1024,10 +1024,6 @@ var appinfo = {
         icon: 'google_fonts_lodp.ico',
         url: 'https://github.com/typekit/webfontloader'
     },
-    'WebSocket': {
-        icon: 'websockets.png',
-        url: 'https://developer.mozilla.org/en-US/docs/Web/API/WebSocket'
-    },
     'Prism': {
         icon: 'Prism.svg',
         url: 'https://prismjs.com/'
