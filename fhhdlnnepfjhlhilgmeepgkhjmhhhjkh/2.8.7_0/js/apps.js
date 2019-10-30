@@ -1055,6 +1055,14 @@ var appinfo = {
         icon: 'cloudflare.ico',
         url: 'https://www.cloudflare.com/',
     },
+    'Express.js': {
+        icon: 'expressjs.png',
+        url: 'https://expressjs.com/',
+    },
+    'zClip': {
+        icon: 'unknown.jpg',
+        url: 'https://github.com/zeroclipboard/zeroclipboard',
+    },
     // ==== misc ====
     '': { // default
         icon: 'unknown.jpg',

@@ -344,7 +344,7 @@
             return window.owa_baseUrl;
         },
         'Prettify': function() {
-            return window.prettyPrint;
+            return window.prettyPrint || (window.hasOwnProperty('PR') && window.PR.hasOwnProperty('prettyPrint'));
         },
         'SiteCatalyst': function() {
             return window.s_account;
@@ -386,7 +386,6 @@
             return window.Backbone && typeof(window.Backbone.sync) === 'function';
         },
         'Underscore.js': function() {
-            // return window._ && typeof(window._.identity) === 'function' && window._.identity('abc') === 'abc' && window._.name === '_';
             return window._ && typeof (window._.identity) === 'function' && window._.identity('abc') === 'abc';
         },
         'Spine': function() {
@@ -434,7 +433,7 @@
         },
         'Vue': function() {
             if (window.Vue) {
-            return window.Vue;
+                return window.Vue;
             }
             const all = document.querySelectorAll('*');
             let el;
@@ -465,7 +464,7 @@
         'Webpack':function () {
             return window.webpackJsonp;
         },
-                'Ember':function () {
+        'Ember':function () {
             return window.EmberENV && window.Ember;
         },
         'flowchart': function () {
@@ -490,7 +489,8 @@
             return window.WebFont;
         },
         'WebSocket': function () {
-            return window.WebSocket && window.WebSocket.CONNECTING;
+            // FIXME
+            return window.WebSocket && window.WebSocket.OPEN;
         },
         'Prism': function () {
             return window.Prism;
@@ -506,7 +506,26 @@
         },
         'emoji': function () {
             return window.String.prototype.emoji;
-        }
+        },
+        'zClip': function () {
+            return window.ZeroClipboard;
+        },
+        'React': function () {
+            if (window.reactInternalInstance) {
+                return true;
+            }
+            const all = document.querySelectorAll('*');
+            window.$ALL = all;
+            for (let i = 0; i < all.length; i++) {
+                for (var key in all[i]) {
+                    // __reactInternalInstance
+                    if (key.includes('__reactInternalInstance')) {
+                        window.reactInternalInstance = all[i][key];
+                        return true;
+                    }
+                }
+            }
+        },
     };
 
     for (var t in js_tests) {
@@ -622,7 +641,7 @@
         'Lo-dash':function () {
             if(window._ && window._.name === 'lodash') return window._.VERSION;
         },
-                'Ember':function () {
+        'Ember':function () {
             if (window.Ember) return window.Ember.VERSION;
         },
         'katex': function () {
@@ -635,11 +654,15 @@
             if (window.ace && typeof (window.ace.UndoManager) === 'function') return window.ace.version;
         },
         'WebSocket': function () {
-            if (window.WebSocket && window.WebSocket.CONNECTING) return window.WebSocket.CONNECTING + '[' + window.WebSocket.OPEN + ', ' + window.WebSocket.CLOSED + ']';
+            // FIXME
+            if (window.WebSocket && window.WebSocket.OPEN) return window.WebSocket.OPEN;
         },
         'Raven': function () {
             if (window.Raven) return window.Raven.VERSION;
-        }
+        },
+        'zClip': function () {
+            if (window.ZeroClipboard) return window.ZeroClipboard.version;
+        },
     };
 
     for (var a in _apps) {
@@ -672,7 +695,7 @@
             /* Iterate through all registered css classes and check for presence */
             for (var cssFile in document.styleSheets) {
                 if (!document.styleSheets[cssFile].hasOwnProperty('cssRules')) continue;
-                
+
                 for (var cssRule in document.styleSheets[cssFile].cssRules) {
                     var style = document.styleSheets[cssFile].cssRules[cssRule];
 
